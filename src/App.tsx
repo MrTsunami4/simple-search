@@ -42,6 +42,12 @@ async function search(query: string) {
   return sortedResults;
 }
 
+function prepareQuery(query: string) {
+  // TODO: Implement query preprocessing, pleace do le kasask magic there
+  // :D :D :D :D, :thumbsup:
+  return query.trim();
+}
+
 function SearchPage() {
   const [query, setQuery] = useState("");
   const { isPending, isError, data, error } = useQuery({
@@ -62,7 +68,9 @@ function SearchPage() {
             className="flex-grow text-lg py-6 px-4 rounded-full bg-white shadow-lg focus:ring-2 focus:ring-blue-500"
             name="q"
             value={query}
-            onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
+            onInput={(e) =>
+              setQuery(prepareQuery((e.target as HTMLInputElement).value))
+            }
           />
           <Button
             type="submit"
