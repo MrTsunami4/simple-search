@@ -17,11 +17,13 @@ export default function App() {
   );
 }
 
-type SearchResult = {
-  content: string;
-  content_type: "text" | "image";
-  id: number;
-  score: number;
+export type SearchResult = {
+  results: Array<{
+    content: string;
+    content_type: "text" | "image";
+    id: number;
+    score: number;
+  }>;
 };
 
 async function search(query: string) {
@@ -35,9 +37,9 @@ async function search(query: string) {
   if (!response.ok) {
     throw new Error("Failed to fetch search results");
   }
-  const data = (await response.json()) as SearchResult[];
-  const sortedData = data.sort((a, b) => b.score - a.score);
-  return sortedData;
+  const { results } = (await response.json()) as SearchResult;
+  const sortedResults = results.sort((a, b) => b.score - a.score);
+  return sortedResults;
 }
 
 function SearchPage() {
@@ -87,7 +89,7 @@ function SearchPage() {
               <h2 className="text-2xl font-bold text-blue-800">
                 {result.content_type === "image" ? (
                   <img
-                    src={result.content}
+                    src={`data:image/png;base64,${result.content}`}
                     alt="Search result image"
                     className="w-full h-auto"
                   />
@@ -95,7 +97,6 @@ function SearchPage() {
                   <p>{result.content}</p>
                 )}
               </h2>
-              <p className="text-lg text-blue-700">{result.content}</p>
             </li>
           ))}
         </ul>
