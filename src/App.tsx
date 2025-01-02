@@ -45,10 +45,43 @@ async function search(query: string) {
   return sortedResults;
 }
 
+const stopWords = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "as",
+  "at",
+  "be",
+  "by",
+  "for",
+  "from",
+  "has",
+  "he",
+  "in",
+  "is",
+  "it",
+  "its",
+  "of",
+  "on",
+  "that",
+  "the",
+  "to",
+  "was",
+  "were",
+  "will",
+  "with",
+]);
+
 function prepareQuery(query: string) {
-  // TODO: Implement query preprocessing, pleace do le kasask magic there
-  // :D :D :D :D, :thumbsup:
-  return query.trim();
+  return query
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((word) => {
+      return !stopWords.has(word);
+    })
+    .join(" ");
 }
 
 function SearchPage() {
