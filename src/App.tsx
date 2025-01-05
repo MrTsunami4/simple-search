@@ -88,7 +88,7 @@ function SearchPage() {
   const [query, setQuery] = useState("");
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["search"],
-    queryFn: () => search(query),
+    queryFn: () => search(prepareQuery(query)),
   });
 
   return (
@@ -104,9 +104,7 @@ function SearchPage() {
             className="flex-grow text-lg py-6 px-4 rounded-full bg-white shadow-lg focus:ring-2 focus:ring-blue-500"
             name="q"
             value={query}
-            onInput={(e) =>
-              setQuery(prepareQuery((e.target as HTMLInputElement).value))
-            }
+            onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
           />
           <Button
             type="submit"
