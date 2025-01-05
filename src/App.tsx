@@ -30,7 +30,7 @@ async function search(query: string) {
   if (!query) {
     return null;
   }
-  const response = await fetch("http://146.190.128.60:8081/search", {
+  const response = await fetch("http://localhost:8081/search", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
